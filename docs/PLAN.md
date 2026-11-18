@@ -83,9 +83,11 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
 - [ ] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
   for the moved xacro files (`franka_description/robots/common/panda_arm.xacro`, `hand.xacro`).
   Done when: Slicer shows the Panda from the new workspace and it follows the simulation.
-- [ ] **P0-T5 Move the Claude Code setup** (config). `CLAUDE.md`, `.claude/settings.json` and
-  `~/start_env.sh` point to the new workspace, remotes and git rules.
-  Done when: a new Claude Code session in the new workspace loads `CLAUDE.md` without warnings.
+- [ ] **P0-T5 Update the Claude Code setup** (config). `CLAUDE.md` and `.claude/` are in the repo
+  and move with the branch; update their workspace paths (`ros2_ws_2` to the new workspace), the
+  remotes and `~/start_env.sh`.
+  Done when: a new session started in the new repo folder loads `CLAUDE.md` and the
+  `sonnet-implementer` subagent without warnings.
 - [ ] **P0-T6 Record the test baseline** (config). Run `colcon test` on the untouched packages and
   save the summary to `docs/project/TEST_BASELINE.md` (which packages fail which linters/tests).
   Done when: the file exists and "tests pass" is defined against it (no new failures).
@@ -288,3 +290,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 ## Change log
 
 - 2026-11-17: initial plan written (Fable 5.2) from the setup investigation and discussion with Daniel.
+- 2026-11-18: Claude Code setup (`CLAUDE.md`, `.claude/`) moved into the repo; P0-T5 reduced to updating paths.

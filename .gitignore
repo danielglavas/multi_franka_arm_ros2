@@ -8,3 +8,5 @@ franka_multi_mode_controller/mm_demo_scripts/*
 log/*
 build/*
 install/*
+.claude/settings.local.json
+

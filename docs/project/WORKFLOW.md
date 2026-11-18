@@ -15,7 +15,7 @@ propose before changing files.
 ## Running the two models
 
 - Default: one session per task, running on Opus. Opus hands the saved brief to the
-  `sonnet-implementer` subagent (defined in `~/ros2_ws_2/.claude/agents/`, model Sonnet, effort
+  `sonnet-implementer` subagent (defined in `.claude/agents/` in this repo, model Sonnet, effort
   medium) and reviews what comes back. Daniel does not need to ask for the hand-over.
 - Effort: a brief marked `Effort: high` is run at high effort. Use high for C++ and MoveIt2 code,
   geometry, and control; medium for everything else.
