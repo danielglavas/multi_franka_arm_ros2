@@ -5,6 +5,9 @@
 - When making a choice, briefly name the alternatives and why this one won.
 - All code gets comments explaining what it does. Names (variables, functions, topics) describe their purpose.
 - Investigate and propose first; change files only after approval.
+- Before presenting a proposal or plan, re-read the files it names and check each claim (paths,
+  names, line contents) against them. Say which claims were not checked.
+- Change files with Edit/Write, not shell redirection (`>>`, `sed -i`), so the edit-check hook sees them.
 
 ## System
 Goal chain: Franka Emika Panda -> MoveIt2 -> ROS 2 Humble -> SlicerROS2 module -> 3D Slicer.
