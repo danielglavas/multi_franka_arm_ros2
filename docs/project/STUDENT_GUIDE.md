@@ -378,4 +378,5 @@ Found during setup on 2026-11-15 to 17. Add to this list as you go.
 - **libfranka 0.9.2 is installed twice** (`/usr` and `/usr/local`). Same version, so harmless today; confusing if one is ever updated.
 - **`~/.bashrc` puts `/usr/local` and a custom Eigen first** on the search paths. Builds may pick those over system versions.
 - **`rm -rf` and `sudo` are blocked for the assistant** by `.claude/settings.json`. That is intended; you run those yourself.
-- **The workspace root is not under git.** `CLAUDE.md` and `.claude/` there have no history.
+- **The Claude Code setup is in the repo** (`CLAUDE.md`, `.claude/`). Start sessions from the repo
+  folder, not from `~/ros2_ws_2`, or the rules and the subagent are not loaded.
