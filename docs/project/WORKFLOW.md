@@ -14,12 +14,17 @@ propose before changing files.
 
 ## Running the two models
 
-- Simplest: one session with Opus; it hands a task brief to a Sonnet subagent and reviews what comes back.
-- Alternative: switch the model in the session (`/model`) between planning and coding.
-- Some Claude Code versions offer a combined mode that plans with Opus and executes with Sonnet;
-  check `/model` for it.
+- Default: one session per task, running on Opus. Opus hands the saved brief to the
+  `sonnet-implementer` subagent (defined in `~/ros2_ws_2/.claude/agents/`, model Sonnet, effort
+  medium) and reviews what comes back. Daniel does not need to ask for the hand-over.
+- Effort: a brief marked `Effort: high` is run at high effort. Use high for C++ and MoveIt2 code,
+  geometry, and control; medium for everything else.
+- Alternative, for tasks Daniel wants to watch or type himself: a separate Sonnet session that
+  reads the brief file; Opus reviews the diff afterwards.
 - Whatever the mechanism, the hand-over is the **task brief**. If the brief is not written down,
   the hand-over did not happen.
+- Every brief is saved as `docs/project/briefs/<task ID>.md` (for example `briefs/P1-T5.md`) and
+  committed with the task, so it survives the session and any session can read it.
 
 ## Start of every session (Opus)
 
@@ -33,10 +38,13 @@ propose before changing files.
 ## Life of a task
 
 1. **Select.** Next unblocked task in `PLAN.md`; mark it `[~]`.
-2. **Brief.** Opus writes the brief from the template below. For code tasks Opus first reads the
-   existing code the task touches; briefs never describe files from memory.
+2. **Brief.** Opus writes the brief from the template below and saves it as
+   `docs/project/briefs/<task ID>.md`. For code tasks Opus first reads the existing code the task
+   touches; briefs never describe files from memory. If the brief changes during the task, the
+   file is updated so it matches what was built.
 3. **Explain.** Opus tells Daniel what will be built, why, and what he will learn from it. Daniel approves.
-4. **Implement.** Sonnet works from the brief only. If something in the brief is wrong or missing,
+4. **Implement.** Opus starts the `sonnet-implementer` subagent with the path of the brief file.
+   Sonnet works from the brief only. If something in the brief is wrong or missing,
    Sonnet stops and reports; it does not redesign.
 5. **Check.** Build, run the tests, run the "Done when" check for real. A check that needs the
    simulator or Slicer is done by Daniel with exact commands given to him.
@@ -88,6 +96,8 @@ propose before changing files.
 ```markdown
 # Brief <task ID>: <title>
 
+Effort: medium | high
+
 ## Goal
 One or two sentences: what exists afterwards and why the project needs it.
 
@@ -122,6 +132,8 @@ What this task teaches, and one small experiment to try afterwards.
 ## Example brief 1 (task P1-T5)
 
 # Brief P1-T5: probe pose publisher node
+
+Effort: medium
 
 ## Goal
 A small Python node that publishes the pose of the probe tip in the robot base frame. It is
@@ -172,6 +184,8 @@ Try: change `publish_rate_hz` from the command line and confirm it with `ros2 to
 ## Example brief 2 (task P3-T3)
 
 # Brief P3-T3: path generation library
+
+Effort: high
 
 ## Goal
 Turn a few clicked points on a surface into an ordered list of probe poses that follow the
