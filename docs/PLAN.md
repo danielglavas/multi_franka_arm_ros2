@@ -67,7 +67,7 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   D3 (MuJoCo is the main simulation) in `DECISIONS.md`.
   Done when: the three decisions are marked "decided".
   Done 2026-11-19: all three confirmed as proposed; D3 adds RViz on its own where no simulation is needed.
-- [ ] **P0-T2 Build the maintained repo in a new workspace** (config, Daniel with Opus guiding).
+- [~] **P0-T2 Build the maintained repo in a new workspace** (config, Daniel with Opus guiding).
   Steps in outline: install MuJoCo 3.2.0 into its own prefix (for example
   `~/Libraries/mujoco-3.2.0`, not `/usr/local`, so the old workspace keeps working with 3.1.6);
   clone the fork into `~/ros2_ws_3/src`; add the maintained repo as a remote; bring `ultrasound`
