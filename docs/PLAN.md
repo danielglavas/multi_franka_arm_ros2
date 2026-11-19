@@ -1,6 +1,6 @@
 # PLAN: robotic ultrasound scanning with Panda, MoveIt2 and 3D Slicer
 
-Last updated: 2026-11-17 (initial version)
+Last updated: 2026-11-19 (P0-T1 done)
 Thesis deadline: **2027-05-01**. Real robot is required.
 
 This file is the **only** place where progress is tracked. The other documents explain; they do
@@ -62,10 +62,11 @@ If behind schedule, cut in this order (see "Cut lines" at the end).
 
 Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a recorded test baseline.
 
-- [ ] **P0-T1 Confirm base decisions** (decision, Daniel). Confirm or change D1 (switch to
+- [x] **P0-T1 Confirm base decisions** (decision, Daniel). Confirm or change D1 (switch to
   `tenfoldpaper/multipanda_ros2`), D2 (new workspace `~/ros2_ws_3`, old one kept as fallback),
   D3 (MuJoCo is the main simulation) in `DECISIONS.md`.
   Done when: the three decisions are marked "decided".
+  Done 2026-11-19: all three confirmed as proposed; D3 adds RViz on its own where no simulation is needed.
 - [ ] **P0-T2 Build the maintained repo in a new workspace** (config, Daniel with Opus guiding).
   Steps in outline: install MuJoCo 3.2.0 into its own prefix (for example
   `~/Libraries/mujoco-3.2.0`, not `/usr/local`, so the old workspace keeps working with 3.1.6);
@@ -291,3 +292,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 
 - 2026-11-17: initial plan written (Fable 5.2) from the setup investigation and discussion with Daniel.
 - 2026-11-18: Claude Code setup (`CLAUDE.md`, `.claude/`) moved into the repo; P0-T5 reduced to updating paths.
+- 2026-11-19: P0-T1 done; Daniel decided D1, D2 and D3 as proposed.
