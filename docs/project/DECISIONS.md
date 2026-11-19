@@ -8,9 +8,9 @@ Only Daniel moves a decision to "decided". Opus may add entries and recommendati
 
 | ID | Topic | Status | Needed by |
 |---|---|---|---|
-| D1 | Base repository | proposed | Phase 0 |
-| D2 | Workspace for the new base | proposed | Phase 0 |
-| D3 | Simulation: MuJoCo or fake hardware with RViz | proposed | Phase 0 |
+| D1 | Base repository | decided 2026-11-19 | Phase 0 |
+| D2 | Workspace for the new base | decided 2026-11-19 | Phase 0 |
+| D3 | Simulation: MuJoCo or fake hardware with RViz | decided 2026-11-19 | Phase 0 |
 | D4 | Languages | proposed | Phase 1 |
 | D5 | Where waypoints are clicked | proposed | Phase 3 |
 | D6 | How ultrasound images reach Slicer | open | Phase 7 |
@@ -24,7 +24,9 @@ Only Daniel moves a decision to "decided". Opus may add entries and recommendati
 
 ---
 
-## D1 Base repository (proposed: switch to `tenfoldpaper/multipanda_ros2`)
+## D1 Base repository (decided: switch to `tenfoldpaper/multipanda_ros2`)
+
+**Decided 2026-11-19 by Daniel:** switch to `tenfoldpaper/multipanda_ros2`, as proposed.
 
 Found on 2026-11-17 by reading both repositories (not built or run):
 
@@ -41,12 +43,17 @@ Alternative: stay on the current fork and write the MoveIt2-on-MuJoCo launch our
 Why switch: the missing pieces are exactly the ones this project needs, and the cost of switching
 grows with every commit.
 
-## D2 Workspace (proposed: new `~/ros2_ws_3`, keep `~/ros2_ws_2` until the new one drives Slicer)
+## D2 Workspace (decided: new `~/ros2_ws_3`, keep `~/ros2_ws_2` until the new one drives Slicer)
+
+**Decided 2026-11-19 by Daniel:** use a new workspace `~/ros2_ws_3`, as proposed.
 
 Alternative: update `ros2_ws_2` in place. Rejected because the working sim-to-Slicer setup would
 be gone until the new one runs. Install MuJoCo 3.2.0 into its own folder so both workspaces work.
 
-## D3 Simulation (proposed: MuJoCo as the stand-in robot, RViz as a viewer on top)
+## D3 Simulation (decided: MuJoCo as the stand-in robot, RViz as a viewer on top)
+
+**Decided 2026-11-19 by Daniel:** MuJoCo is the simulation. RViz stays in use as a viewer, also
+on its own for use cases where no simulation is needed.
 
 RViz only displays. The real choice is fake hardware (joints jump to commands, no physics) or
 MuJoCo. MuJoCo is needed because contact force is in scope, and it exposes the same controllers
