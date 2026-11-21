@@ -1,6 +1,6 @@
 # PLAN: robotic ultrasound scanning with Panda, MoveIt2 and 3D Slicer
 
-Last updated: 2026-11-21 (P0-T5 done)
+Last updated: 2026-11-21 (P0-T6 done)
 Thesis deadline: **2027-05-01**. Real robot is required.
 
 This file is the **only** place where progress is tracked. The other documents explain; they do
@@ -89,7 +89,13 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   plugin-not-found errors and a motion planned in RViz executes in MuJoCo.
 - [ ] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
   for the moved xacro files (`franka_description/robots/common/panda_arm.xacro`, `hand.xacro`).
-  Done when: Slicer shows the Panda from the new workspace and it follows the simulation.
+  Also fix `franka_description/test/urdf_tests.py` (Daniel approved this `franka_*` change on
+  2026-11-21). It loads `robots/panda_arm.urdf.xacro`, which upstream moved to
+  `robots/real/panda_arm.urdf.xacro`, so all 6 cases fail (see `TEST_BASELINE.md`). Changing the
+  path is enough: all 6 assertions passed against the moved file when checked by hand on 2026-11-21.
+  Fix it first, so the test guards the DAE to STL edit.
+  Done when: Slicer shows the Panda from the new workspace and it follows the simulation;
+  `franka_description_urdf_tests` passes 6 of 6 and is removed from `TEST_BASELINE.md`.
 - [x] **P0-T5 Update the Claude Code setup** (config). `CLAUDE.md` and `.claude/` are in the repo
   and move with the branch; update their workspace paths (`ros2_ws_2` to the new workspace), the
   remotes and `~/start_env.sh`.
@@ -97,13 +103,21 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   `sonnet-implementer` subagent without warnings.
   Done 2026-11-21: a new session in `~/ros2_ws_3/src/multi_franka_arm_ros2` loaded `CLAUDE.md`,
   `.claude/settings.json` and `sonnet-implementer`. The edit-check hook is silent on success, so it is not yet shown to run. Details in `docs/project/briefs/P0-T5.md`.
-- [ ] **P0-T6 Record the test baseline** (config). Run `colcon test` on the untouched packages and
+- [x] **P0-T6 Record the test baseline** (config). Run `colcon test` on the untouched packages and
   save the summary to `docs/project/TEST_BASELINE.md` (which packages fail which linters/tests).
   Done when: the file exists and "tests pass" is defined against it (no new failures).
+  Done 2026-11-21: 28 packages tested in 17 s; 3268 tests, 2888 failures, 142 skipped. 20 packages
+  fail, almost all on style linters. The one functional failure is `franka_description_urdf_tests`
+  (6 of 6): it loads `robots/panda_arm.urdf.xacro`, which upstream moved to `robots/real/`. cppcheck
+  is skipped everywhere (version 2.7 counts as too slow). Details and the pass rule in `TEST_BASELINE.md`.
 - [ ] **P0-T7 Create the package skeleton** (code). Folder `ultrasound/` in the repo with empty but
   building packages as listed in `ARCHITECTURE.md`, each with license, description, and a passing
-  lint/test setup.
-  Done when: `colcon build` and `colcon test` succeed for the new packages.
+  lint/test setup. For the C++ package `ultrasound_scan_execution`, turn cppcheck on. Humble's
+  `ament_cppcheck` skips the installed cppcheck 2.7 unless `AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS` is
+  set (see `TEST_BASELINE.md`). Set it only for that package's `cppcheck` test, for example with
+  the CTest `ENVIRONMENT` property **(verify)**, not globally, so the `franka_*` baseline is unchanged.
+  Done when: `colcon build` and `colcon test` succeed for the new packages, and the `cppcheck`
+  result of `ultrasound_scan_execution` shows the test ran, not "skipped".
 - [ ] **P0-T8 Explain the 2026-11-13 tf failure** (config). The Slicer log showed "panda_link0 does
   not exist" for all tf lookups. Reproduce or rule out: check `ros2 run tf2_ros tf2_echo
   panda_link0 panda_link8`, `use_sim_time`, start order, tf prefix.
@@ -303,3 +317,5 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-19: P0-T1 done; Daniel decided D1, D2 and D3 as proposed.
 - 2026-11-21: P0-T2 done in `~/ros2_ws_3`; P0-T3's packages installed early. From now on `~/ros2_ws_3` is the main workspace.
 - 2026-11-21: P0-T5 done; a new session in `~/ros2_ws_3` loads the Claude Code setup.
+- 2026-11-21: P0-T6 done; test baseline in `docs/project/TEST_BASELINE.md`. `franka_description_urdf_tests` fails on the moved xacro path.
+- 2026-11-21: Fixing `urdf_tests.py` added to P0-T4 (Daniel approved the `franka_*` change). cppcheck for our C++ package added to P0-T7.
