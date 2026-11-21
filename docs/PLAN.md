@@ -1,6 +1,6 @@
 # PLAN: robotic ultrasound scanning with Panda, MoveIt2 and 3D Slicer
 
-Last updated: 2026-11-21 (P0-T2 done)
+Last updated: 2026-11-21 (P0-T5 done)
 Thesis deadline: **2027-05-01**. Real robot is required.
 
 This file is the **only** place where progress is tracked. The other documents explain; they do
@@ -79,7 +79,8 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   Done 2026-11-21: both checks passed. 28 packages built; MuJoCo 3.2.0 confirmed in the log.
   `ros-humble-rosbridge-server` had to be installed by hand (not in `package.xml`). Details,
   harmless log errors and known shutdown crashes in `docs/project/briefs/P0-T2.md`, "Result".
-  The rebased `ultrasound` exists only in `~/ros2_ws_3`; `origin` still has the old history.
+  The rebased `ultrasound` was pushed to `origin` (`danielglavas/multi_franka_arm_ros2`) on 2026-11-21.
+  That fork's `humble` matches `upstream/humble` (`tenfoldpaper/multipanda_ros2`) at `44076f1`.
 - [ ] **P0-T3 Install missing ROS packages** (config, Daniel, needs sudo).
   At least `ros-humble-moveit-simple-controller-manager` and `ros-humble-joint-trajectory-controller`
   (or `ros-humble-ros2-controllers`). Let `rosdep install --from-paths src --ignore-src -r` list the rest.
@@ -89,11 +90,13 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
 - [ ] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
   for the moved xacro files (`franka_description/robots/common/panda_arm.xacro`, `hand.xacro`).
   Done when: Slicer shows the Panda from the new workspace and it follows the simulation.
-- [~] **P0-T5 Update the Claude Code setup** (config). `CLAUDE.md` and `.claude/` are in the repo
+- [x] **P0-T5 Update the Claude Code setup** (config). `CLAUDE.md` and `.claude/` are in the repo
   and move with the branch; update their workspace paths (`ros2_ws_2` to the new workspace), the
   remotes and `~/start_env.sh`.
   Done when: a new session started in the new repo folder loads `CLAUDE.md` and the
   `sonnet-implementer` subagent without warnings.
+  Done 2026-11-21: a new session in `~/ros2_ws_3/src/multi_franka_arm_ros2` loaded `CLAUDE.md`,
+  `.claude/settings.json` and `sonnet-implementer`. The edit-check hook is silent on success, so it is not yet shown to run. Details in `docs/project/briefs/P0-T5.md`.
 - [ ] **P0-T6 Record the test baseline** (config). Run `colcon test` on the untouched packages and
   save the summary to `docs/project/TEST_BASELINE.md` (which packages fail which linters/tests).
   Done when: the file exists and "tests pass" is defined against it (no new failures).
@@ -299,3 +302,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-18: Claude Code setup (`CLAUDE.md`, `.claude/`) moved into the repo; P0-T5 reduced to updating paths.
 - 2026-11-19: P0-T1 done; Daniel decided D1, D2 and D3 as proposed.
 - 2026-11-21: P0-T2 done in `~/ros2_ws_3`; P0-T3's packages installed early. From now on `~/ros2_ws_3` is the main workspace.
+- 2026-11-21: P0-T5 done; a new session in `~/ros2_ws_3` loads the Claude Code setup.
