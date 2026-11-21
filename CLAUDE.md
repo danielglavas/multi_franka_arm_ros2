@@ -14,7 +14,8 @@ Goal chain: Franka Emika Panda -> MoveIt2 -> ROS 2 Humble -> SlicerROS2 module -
 The end effector will be an ultrasound probe (not modelled yet; `hand.xacro` gripper is still the only EOAT).
 - `franka_bringup franka_sim.launch.py` runs the Panda in MuJoCo (not fake hardware, not the real robot).
 - SlicerROS2 makes Slicer a ROS 2 node: it reads the URDF from the `robot_description` parameter of
-  `robot_state_publisher` and moves the links via tf2. It only displays STL/OBJ meshes.
+  `robot_state_publisher` and moves the links via tf2. The installed SlicerROS2 (`e7bf7fe`) loads
+  meshes with `vtkSTLReader` only; v1.1+ also loads OBJ and DAE (via Assimp). See D14 in `DECISIONS.md`.
 - Slicer uses its own Python 3.9, so `rclpy` cannot be imported inside Slicer; use the module's MRML classes.
 - MoveIt2 (apt, 2.5.10) is installed with `moveit_simple_controller_manager` and
   `joint_trajectory_controller`. `franka_moveit_config/launch/sim_moveit.launch.py` exists but is untested (P0-T3).

@@ -12,7 +12,11 @@
     <link name="${ns}_hand">
       <visual>
         <geometry>
-          <mesh filename="package://franka_description/meshes/visual/hand.dae"/>
+          <!-- Visual meshes are STL, not DAE, because the installed SlicerROS2 reads STL only.
+               The .stl files were converted from the .dae files next to them (task P0-T4).
+               No colon followed by a space in comments here. xacro keeps comments in the URDF,
+               and ROS launch parses robot_description as YAML, so that would break the launch. -->
+          <mesh filename="package://franka_description/meshes/visual/hand.stl"/>
         </geometry>
       </visual>
       <collision>
@@ -62,7 +66,7 @@
     <link name="${ns}_leftfinger">
       <visual>
         <geometry>
-          <mesh filename="package://franka_description/meshes/visual/finger.dae"/>
+          <mesh filename="package://franka_description/meshes/visual/finger.stl"/>
         </geometry>
       </visual>
       <!-- screw mount -->
@@ -98,7 +102,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
         <geometry>
-          <mesh filename="package://franka_description/meshes/visual/finger.dae"/>
+          <mesh filename="package://franka_description/meshes/visual/finger.stl"/>
         </geometry>
       </visual>
       <!-- screw mount -->

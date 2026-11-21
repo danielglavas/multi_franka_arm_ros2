@@ -87,7 +87,7 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   2026-11-21: both packages installed during P0-T2 (rosdep now lists nothing); the `move_group` check is still open.
   Done when: `ros2 launch franka_moveit_config sim_moveit.launch.py` starts `move_group` without
   plugin-not-found errors and a motion planned in RViz executes in MuJoCo.
-- [ ] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
+- [x] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
   for the moved xacro files (`franka_description/robots/common/panda_arm.xacro`, `hand.xacro`).
   Also fix `franka_description/test/urdf_tests.py` (Daniel approved this `franka_*` change on
   2026-11-21). It loads `robots/panda_arm.urdf.xacro`, which upstream moved to
@@ -96,6 +96,16 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   Fix it first, so the test guards the DAE to STL edit.
   Done when: Slicer shows the Panda from the new workspace and it follows the simulation;
   `franka_description_urdf_tests` passes 6 of 6 and is removed from `TEST_BASELINE.md`.
+  Done 2026-11-21:
+  - `urdf_tests` passes 6 of 6.
+  - 10 STL files restored from `15be685`; 11 visual mesh paths switched.
+  - Daniel checked: the sim starts, Slicer shows the Panda and follows MuJoCo.
+  - Known difference: in Slicer both fingers move together. The URDF makes `finger_joint2` mimic
+    `finger_joint1`, while MuJoCo couples them only by a soft equality constraint, so a finger
+    pushed in the viewer can differ there. Not a problem: the probe replaces the gripper.
+  - Pitfall found: a comment with a colon followed by a space inside a xacro macro breaks the launch
+    (`robot_description` is parsed as YAML). Details in `docs/project/briefs/P0-T4.md`.
+  - SlicerROS2 v1.2 loads DAE with colours; the upgrade is open decision D14.
 - [x] **P0-T5 Update the Claude Code setup** (config). `CLAUDE.md` and `.claude/` are in the repo
   and move with the branch; update their workspace paths (`ros2_ws_2` to the new workspace), the
   remotes and `~/start_env.sh`.
@@ -319,3 +329,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-21: P0-T5 done; a new session in `~/ros2_ws_3` loads the Claude Code setup.
 - 2026-11-21: P0-T6 done; test baseline in `docs/project/TEST_BASELINE.md`. `franka_description_urdf_tests` fails on the moved xacro path.
 - 2026-11-21: Fixing `urdf_tests.py` added to P0-T4 (Daniel approved the `franka_*` change). cppcheck for our C++ package added to P0-T7.
+- 2026-11-21: P0-T4 done; Slicer mirrors the MuJoCo Panda from `~/ros2_ws_3`. D14 (SlicerROS2 upgrade) added as open.

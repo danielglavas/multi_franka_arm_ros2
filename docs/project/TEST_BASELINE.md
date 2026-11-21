@@ -38,7 +38,7 @@ The CTest test name is what `colcon test` reports and what `ctest -R <name>` run
 |---|---|---|
 | `franka_bringup` | `copyright`, `flake8` | |
 | `franka_control2` | `lint_cmake`, `uncrustify` | |
-| `franka_description` | `franka_description_urdf_tests`, `flake8` | urdf_tests: 6 of 6 fail, see below |
+| `franka_description` | `flake8` | `franka_description_urdf_tests` fixed in P0-T4 (2026-11-21), now passes 6 of 6 |
 | `franka_example_controllers` | `clang_format`, `copyright`, `lint_cmake` | |
 | `franka_gripper` | `lint_cmake` | |
 | `franka_hardware` | `clang_format`, `copyright`, `lint_cmake` | |
@@ -71,12 +71,12 @@ No tests at all:
 
 ## Causes
 
-- **`franka_description_urdf_tests` is the only functional failure.** The test loads
-  `robots/panda_arm.urdf.xacro`. Upstream moved the files: the arm is now in
+- **`franka_description_urdf_tests` was the only functional failure (fixed in P0-T4).** The test loaded
+  `robots/panda_arm.urdf.xacro`. Upstream had moved the files: the arm is now in
   `robots/real/panda_arm.urdf.xacro` and `robots/sim/panda_arm_sim.urdf.xacro`, and the shared
-  parts are in `robots/common/`. The test was not updated, so all 6 cases stop with "No such file
-  or directory". Until this is fixed, **nothing tests that the Panda xacro processes**. That
-  matters for P0-T4 and P1-T2, which edit it.
+  parts are in `robots/common/`. All 6 cases stopped with "No such file or directory". On
+  2026-11-21 the path was changed to `robots/real/`, and all 6 pass. That was the only change from
+  the recorded run, so the rest of the baseline is still valid without recording it again.
 - **Style only, nothing wrong with the behaviour:**
   - `flake8`: long lines (E501), trailing whitespace (W291, W293), unused imports (F401).
   - `clang_format` and `uncrustify`: C++ formatting differs from the configured style.
@@ -105,4 +105,3 @@ colcon test-result --verbose
 
 - After rebasing onto a newer `upstream/humble`, or after updating the `mujoco_ros_pkgs` submodule.
 - After an apt upgrade that changes the ament linter or cppcheck versions.
-- After fixing `franka_description_urdf_tests` (a candidate small task).

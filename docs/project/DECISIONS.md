@@ -21,6 +21,7 @@ Only Daniel moves a decision to "decided". Opus may add entries and recommendati
 | D11 | Continuous or stop-and-go acquisition | open | Phase 7 |
 | D12 | Slicer on the robot PC or a second PC | open | Phase 5 |
 | D13 | Calibration method for image-to-probe | open | Phase 7 |
+| D14 | Upgrade SlicerROS2 from `e7bf7fe` to v1.2 | open | before Phase 3 (D5) or Phase 4 |
 
 ---
 
@@ -127,3 +128,37 @@ reports communication errors while Slicer runs, move Slicer to a second PC on th
 
 Depends on what phantoms and tools the lab has (checklist section D). Candidates: a point target
 imaged from many robot poses; a wire phantom; a method provided by PLUS. The robot is the tracker.
+
+## D14 SlicerROS2 version (open: stay on `e7bf7fe` or upgrade to v1.2)
+
+Added 2026-11-21 during P0-T4. Facts from `git fetch` and reading upstream `rosmed/slicer_ros2_module`
+(not built or tested here):
+
+- **Installed:** `main` at `e7bf7fe`, built against Slicer 5.6.2 on Humble, with an uncommitted
+  workaround in `MRML/CMakeLists.txt` (the `rosbag2_interfaces` services `Play`, `SplitBagfile` and
+  `Stop` are commented out). It loads every link mesh with `vtkSTLReader`, so the Panda needs STL
+  visual meshes (done in P0-T4). It colours each link from the URDF `<material>`, or grey without one.
+- **Upstream `main`:** now `4f52f10` (release v1.2, 145 commits newer). It includes:
+  - DAE loading through Assimp, with one mesh per colour (v1.1, commit `c1de4b6`). The Panda
+    would show its real colours with no STL files.
+  - `PointCloud2` subscribers.
+  - A `ROS2MotionControl` module: MoveIt planning **and execution** from Slicer, IK, trajectories, obstacles.
+  - The build moves into the colcon workspace instead of the Slicer build tree.
+- **Tested upstream on:** Ubuntu 24.04, Jazzy, Slicer 5.10 and 5.12. v1.0 is described as the last
+  version known to work on 20.04 and tested on 22.04. Nothing says Humble or Slicer 5.6 still work.
+- The rosbag2 lines our workaround comments out are still on upstream `main`, so the workaround would still be needed.
+- New dependencies: `assimp` (`libassimp-dev` 5.2.2 is installed) and MoveIt libraries (installed through apt).
+
+| Option | For | Against |
+|---|---|---|
+| Stay on `e7bf7fe` | Known to work here; nothing to rebuild | Grey or one-colour links; no point clouds; no MoveIt in Slicer |
+| Upgrade to v1.2 against Slicer 5.6.2 | Colours, point clouds, MoveIt tools; current upstream | Unknown if it builds on Humble and 5.6.2; motion execution from Slicer must be covered by the safety rules |
+| Upgrade Slicer to 5.10+ as well | Matches upstream's tested versions | Several-hour source build on 7 GB RAM; SlicerIGSIO/SlicerIGT (P0-T9) rebuilt too |
+
+Why it matters beyond colours:
+- D5 assumes "SlicerROS2 has no point cloud type". That is no longer true in v1.1+.
+- MoveIt planning from Slicer could replace part of P3-T6 and help Phase 4.
+
+Recommendation: decide after a **test build** of v1.2 against Slicer 5.6.2 in a separate copy of
+the module, so the working install is not touched. If it builds and the Panda shows from the DAE
+files, the STL change in `franka_description` can be undone by switching the 11 paths back.

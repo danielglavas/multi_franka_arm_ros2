@@ -17,8 +17,11 @@ from os import path
 from ament_index_python.packages import get_package_share_directory
 import xacro
 
+# Upstream moved the single-arm xacro from robots/ into robots/real/ (and robots/sim/) without
+# updating this test, so it failed with "No such file or directory". The real-robot variant keeps
+# every argument the tests below use (hand, use_fake_hardware, robot_ip, arm_id).
 panda_xacro_file_name = path.join(get_package_share_directory('franka_description'), 'robots',
-                                  'panda_arm.urdf.xacro')
+                                  'real', 'panda_arm.urdf.xacro')
 
 
 def test_load():
