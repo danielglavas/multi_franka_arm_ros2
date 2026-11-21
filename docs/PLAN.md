@@ -81,10 +81,16 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   harmless log errors and known shutdown crashes in `docs/project/briefs/P0-T2.md`, "Result".
   The rebased `ultrasound` was pushed to `origin` (`danielglavas/multi_franka_arm_ros2`) on 2026-11-21.
   That fork's `humble` matches `upstream/humble` (`tenfoldpaper/multipanda_ros2`) at `44076f1`.
-- [ ] **P0-T3 Install missing ROS packages** (config, Daniel, needs sudo).
+- [x] **P0-T3 Install missing ROS packages** (config, Daniel, needs sudo).
   At least `ros-humble-moveit-simple-controller-manager` and `ros-humble-joint-trajectory-controller`
   (or `ros-humble-ros2-controllers`). Let `rosdep install --from-paths src --ignore-src -r` list the rest.
   2026-11-21: both packages installed during P0-T2 (rosdep now lists nothing); the `move_group` check is still open.
+  2026-11-21: started; brief in `docs/project/briefs/P0-T3.md` (launch audited: sim only).
+  Done 2026-11-21: `move_group` starts with no plugin errors; a plan to `extended` executed in
+  MuJoCo ("Execution completed: SUCCEEDED"). RViz first showed no robot: the desktop's `hr_HR`
+  number format made ROS read `0.05` as text inside RViz; `~/start_env.sh` now sets
+  `LC_NUMERIC=en_US.UTF-8`. No repo code changed. Rough edges (red arm, sim time, gripper name)
+  are in `STUDENT_GUIDE.md`, section 14, and the brief's "Result".
   Done when: `ros2 launch franka_moveit_config sim_moveit.launch.py` starts `move_group` without
   plugin-not-found errors and a motion planned in RViz executes in MuJoCo.
 - [x] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
@@ -330,3 +336,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-21: P0-T6 done; test baseline in `docs/project/TEST_BASELINE.md`. `franka_description_urdf_tests` fails on the moved xacro path.
 - 2026-11-21: Fixing `urdf_tests.py` added to P0-T4 (Daniel approved the `franka_*` change). cppcheck for our C++ package added to P0-T7.
 - 2026-11-21: P0-T4 done; Slicer mirrors the MuJoCo Panda from `~/ros2_ws_3`. D14 (SlicerROS2 upgrade) added as open.
+- 2026-11-21: P0-T3 done; MoveIt2 plans and executes on the MuJoCo Panda. Locale fix in `~/start_env.sh`.

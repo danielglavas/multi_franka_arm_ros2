@@ -370,9 +370,25 @@ Found during setup on 2026-11-15 to 17. Add to this list as you go.
 - **Slicer log of 2026-11-13:** all `panda_linkN` tf lookups failed with "frame does not exist".
   Cause not established (task P0-T8). Suspects: simulation not running at that moment, simulated
   time, or a frame prefix.
-- **MoveIt2 on the simulation is untested.** `moveit_simple_controller_manager` and
-  `joint_trajectory_controller` were installed on 2026-11-21; whether `sim_moveit.launch.py` plans
-  and executes in MuJoCo is task P0-T3.
+- **Decimal comma breaks ROS parameters in Qt programs.** The desktop's number format is `hr_HR`.
+  RViz (and Slicer) apply it, and ROS 2 then reads YAML numbers like `0.05` as text; MoveIt's RViz
+  display failed to load the robot. `~/start_env.sh` now sets `LC_NUMERIC=en_US.UTF-8` (P0-T3).
+  A terminal not started from `start_env.sh` still has the problem.
+- **`ros2 node list` shows nothing although nodes run:** the ROS 2 daemon is stale. Use
+  `--no-daemon`, or `ros2 daemon stop` and try again. `start_slicer` uses `--no-daemon` since 2026-11-21.
+- **Nodes in one terminal are invisible to another (empty rqt_graph, Slicer cannot find
+  `/robot_state_publisher`):** the terminals differ in `ROS_LOCALHOST_ONLY`. `~/start_env.sh` sets
+  it to 1 since 2026-11-21; start every ROS program from a terminal that sourced it.
+- **`sim_moveit.launch.py` works but has known rough edges** (P0-T3, 2026-11-21):
+  - Start MuJoCo with Space: the simulation starts paused, and execution only works when it runs.
+  - The arm is red in RViz: since P0-T4 the visual meshes are STL without `<material>`, and RViz
+    paints uncoloured meshes with its default `RVIZ/ShadedRed`. Cosmetic.
+  - "Maybe failed to update robot state, time diff: ~1.8e9 s" in RViz: the MuJoCo side uses sim
+    time, `move_group` and RViz use wall time. Execution still succeeded. To fix in our own launch (P2-T2).
+  - The MoveIt gripper controller points at `panda_gripper/gripper_action`, but the sim server is
+    `panda_gripper_sim_node`. Gripper moves from MoveIt will fail. Not needed: the probe replaces it.
+  - The `class_loader` "SEVERE WARNING ... InteractiveMarkerDisplay" from RViz is harmless: MoveIt's
+    RViz plugin links RViz's default plugins directly. Nothing to do on our side.
 - **SlicerROS2 is a version meant for ROS 2 Jazzy and Slicer 5.8**, running here on Humble and
   Slicer 5.6.2 thanks to a local edit. A feature that fails for no visible reason may simply not work in this combination.
 - **Slicer was built with its own bzip2** although the SlicerROS2 instructions ask for the system one. It built anyway; remember this if a strange load error appears.
