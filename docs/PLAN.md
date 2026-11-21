@@ -1,6 +1,6 @@
 # PLAN: robotic ultrasound scanning with Panda, MoveIt2 and 3D Slicer
 
-Last updated: 2026-11-19 (P0-T1 done)
+Last updated: 2026-11-21 (P0-T2 done)
 Thesis deadline: **2027-05-01**. Real robot is required.
 
 This file is the **only** place where progress is tracked. The other documents explain; they do
@@ -67,7 +67,7 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   D3 (MuJoCo is the main simulation) in `DECISIONS.md`.
   Done when: the three decisions are marked "decided".
   Done 2026-11-19: all three confirmed as proposed; D3 adds RViz on its own where no simulation is needed.
-- [~] **P0-T2 Build the maintained repo in a new workspace** (config, Daniel with Opus guiding).
+- [x] **P0-T2 Build the maintained repo in a new workspace** (config, Daniel with Opus guiding).
   Steps in outline: install MuJoCo 3.2.0 into its own prefix (for example
   `~/Libraries/mujoco-3.2.0`, not `/usr/local`, so the old workspace keeps working with 3.1.6);
   clone the fork into `~/ros2_ws_3/src`; add the maintained repo as a remote; bring `ultrasound`
@@ -76,9 +76,14 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   build Release.
   Done when: `ros2 launch franka_bringup franka_sim.launch.py` opens MuJoCo with one Panda in the
   new workspace, and the old workspace still launches too.
+  Done 2026-11-21: both checks passed. 28 packages built; MuJoCo 3.2.0 confirmed in the log.
+  `ros-humble-rosbridge-server` had to be installed by hand (not in `package.xml`). Details,
+  harmless log errors and known shutdown crashes in `docs/project/briefs/P0-T2.md`, "Result".
+  The rebased `ultrasound` exists only in `~/ros2_ws_3`; `origin` still has the old history.
 - [ ] **P0-T3 Install missing ROS packages** (config, Daniel, needs sudo).
   At least `ros-humble-moveit-simple-controller-manager` and `ros-humble-joint-trajectory-controller`
   (or `ros-humble-ros2-controllers`). Let `rosdep install --from-paths src --ignore-src -r` list the rest.
+  2026-11-21: both packages installed during P0-T2 (rosdep now lists nothing); the `move_group` check is still open.
   Done when: `ros2 launch franka_moveit_config sim_moveit.launch.py` starts `move_group` without
   plugin-not-found errors and a motion planned in RViz executes in MuJoCo.
 - [ ] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
@@ -293,3 +298,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-17: initial plan written (Fable 5.2) from the setup investigation and discussion with Daniel.
 - 2026-11-18: Claude Code setup (`CLAUDE.md`, `.claude/`) moved into the repo; P0-T5 reduced to updating paths.
 - 2026-11-19: P0-T1 done; Daniel decided D1, D2 and D3 as proposed.
+- 2026-11-21: P0-T2 done in `~/ros2_ws_3`; P0-T3's packages installed early. From now on `~/ros2_ws_3` is the main workspace.
