@@ -16,10 +16,15 @@ The end effector will be an ultrasound probe (not modelled yet; `hand.xacro` gri
 - SlicerROS2 makes Slicer a ROS 2 node: it reads the URDF from the `robot_description` parameter of
   `robot_state_publisher` and moves the links via tf2. It only displays STL/OBJ meshes.
 - Slicer uses its own Python 3.9, so `rclpy` cannot be imported inside Slicer; use the module's MRML classes.
-- MoveIt2 (apt, 2.5.10) is only partly installed and `franka_moveit_config` has no MuJoCo launch.
+- MoveIt2 (apt, 2.5.10) is installed with `moveit_simple_controller_manager` and
+  `joint_trajectory_controller`. `franka_moveit_config/launch/sim_moveit.launch.py` exists but is untested (P0-T3).
+- MuJoCo 3.2.0 is in `~/Libraries/mujoco-3.2.0`. MuJoCo 3.1.6 in `/usr/local` belongs to the old workspace only.
 
 ## Where things live
-- This repo (`~/ros2_ws_2/src/multi_franka_arm_ros2`): main repo. All project work happens here.
+- This repo (`~/ros2_ws_3/src/multi_franka_arm_ros2`): main repo, based on `tenfoldpaper/multipanda_ros2`.
+  All project work happens here. `mujoco_ros_pkgs/` is a git submodule (tenfoldpaper's fork).
+- `~/ros2_ws_2/src/multi_franka_arm_ros2`: old base, read-only fallback with outdated git history.
+  Never pull, push, edit or start sessions there.
 - `~/ros2_ws/src/slicer_ros2_module`: SlicerROS2, separate workspace, kept separate on purpose.
   It has an uncommitted Humble workaround in `MRML/CMakeLists.txt`; never discard it.
 - `~/slicer/Slicer`: Slicer 5.6.2 source. `~/slicer/Slicer-SuperBuild-Release/Slicer-build`: build tree
@@ -27,15 +32,18 @@ The end effector will be an ultrasound probe (not modelled yet; `hand.xacro` gri
 - The two workspaces do not depend on each other; each chains only `/opt/ros/humble`.
 
 ## Sourcing and running
-- Claude's shell has no ROS environment. Prefix every `ros2`/`colcon` command with
-  `source /opt/ros/humble/setup.bash && source /home/daniel/ros2_ws_2/install/setup.bash &&`.
-- Terminal 1: source as above, then `ros2 launch franka_bringup franka_sim.launch.py`.
+- Claude's shell has no ROS environment and does not read `~/.bashrc` (so no MuJoCo 3.2.0 or
+  Eigen 3.3.9 paths). Prefix every `ros2`/`colcon` command with `source ~/start_env.sh &&`.
+  That file sets the library paths, sources ROS and the workspace, and defines `start_panda_sim` and `start_slicer`.
+- Terminal 1: `source ~/start_env.sh`, then `start_panda_sim` (= `ros2 launch franka_bringup franka_sim.launch.py`).
 - Terminal 2 (after the sim is up): source as above, `cd ~/slicer/Slicer-SuperBuild-Release/Slicer-build && ./Slicer`,
   then add the robot in the ROS2 module.
 - `~/ros2_ws/install/setup.bash` is only needed to build or test the Slicer module, not to run Slicer with the Panda.
 
 ## Build and test
-- Build: `cd ~/ros2_ws_2 && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release` (add `--packages-select <pkg>`).
+- Build: `cd ~/ros2_ws_3 && MAKEFLAGS="-j4" colcon build --parallel-workers 2 --cmake-args -DCMAKE_BUILD_TYPE=Release`
+  (add `--packages-select <pkg>`). The limits are needed: the PC has 7 GB RAM.
+- Builds print many warnings from upstream code; colcon's "stderr output" is not a failure. Only "Failed"/"Aborted" is.
 - Not a symlink install: rebuild after editing xacro, launch, config or mesh files.
 - Test: `colcon test --packages-select <pkg> && colcon test-result --verbose`.
 - Existing tests: ament linters, plus pytest in `franka_description` and `franka_moveit_config`.
@@ -52,7 +60,9 @@ The end effector will be an ultrasound probe (not modelled yet; `hand.xacro` gri
 
 ## Git (this repo)
 - Work only on `ultrasound`. Never commit to `humble`; it mirrors `upstream/humble`.
-- `origin` = Daniel's fork, `upstream` = original. Never push to `upstream`.
+- `origin` = Daniel's fork (`danielglavas/multi_franka_arm_ros2`), `upstream` = `tenfoldpaper/multipanda_ros2`.
+  Never push to `upstream`. Do not use GitHub's "Sync fork" button: the fork's GitHub parent is
+  still `yilmazabdurrah/multi_franka_arm_ros2`, not tenfoldpaper.
 - Never force-push without asking. Commit and push only when asked.
 - The fork on GitHub is public. Before every commit and push, check the staged changes for
   passwords, tokens, API keys, the robot's Desk login, lab network details, ultrasound images,

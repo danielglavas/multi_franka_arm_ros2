@@ -370,13 +370,19 @@ Found during setup on 2026-11-15 to 17. Add to this list as you go.
 - **Slicer log of 2026-11-13:** all `panda_linkN` tf lookups failed with "frame does not exist".
   Cause not established (task P0-T8). Suspects: simulation not running at that moment, simulated
   time, or a frame prefix.
-- **MoveIt2 is only partly installed.** `moveit_simple_controller_manager` and
-  `joint_trajectory_controller` are missing (task P0-T3).
+- **MoveIt2 on the simulation is untested.** `moveit_simple_controller_manager` and
+  `joint_trajectory_controller` were installed on 2026-11-21; whether `sim_moveit.launch.py` plans
+  and executes in MuJoCo is task P0-T3.
 - **SlicerROS2 is a version meant for ROS 2 Jazzy and Slicer 5.8**, running here on Humble and
   Slicer 5.6.2 thanks to a local edit. A feature that fails for no visible reason may simply not work in this combination.
 - **Slicer was built with its own bzip2** although the SlicerROS2 instructions ask for the system one. It built anyway; remember this if a strange load error appears.
 - **libfranka 0.9.2 is installed twice** (`/usr` and `/usr/local`). Same version, so harmless today; confusing if one is ever updated.
-- **`~/.bashrc` puts `/usr/local` and a custom Eigen first** on the search paths. Builds may pick those over system versions.
+- **`~/.bashrc` puts MuJoCo 3.2.0 (`~/Libraries/mujoco-3.2.0`), Eigen 3.3.9 (`/opt/eigen-3.3.9`) and
+  `/usr/local` first** on the search paths. Builds pick those over system versions. MuJoCo 3.1.6 in
+  `/usr/local` is only for the old workspace `~/ros2_ws_2`; rebuilding that workspace now picks 3.2.0 and may fail.
+- **Claude Code's shell does not read `~/.bashrc`.** It sources `~/start_env.sh` instead, which sets
+  the same paths. Change both files together if a path changes.
 - **`rm -rf` and `sudo` are blocked for the assistant** by `.claude/settings.json`. That is intended; you run those yourself.
 - **The Claude Code setup is in the repo** (`CLAUDE.md`, `.claude/`). Start sessions from the repo
-  folder, not from `~/ros2_ws_2`, or the rules and the subagent are not loaded.
+  folder `~/ros2_ws_3/src/multi_franka_arm_ros2`, not from `~/ros2_ws_3` or the old
+  `~/ros2_ws_2/...`, or the rules and the subagent are not loaded (or the outdated ones are).

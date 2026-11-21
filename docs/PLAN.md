@@ -89,7 +89,7 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
 - [ ] **P0-T4 Restore the Slicer connection on the new base** (config). Redo the DAE to STL change
   for the moved xacro files (`franka_description/robots/common/panda_arm.xacro`, `hand.xacro`).
   Done when: Slicer shows the Panda from the new workspace and it follows the simulation.
-- [ ] **P0-T5 Update the Claude Code setup** (config). `CLAUDE.md` and `.claude/` are in the repo
+- [~] **P0-T5 Update the Claude Code setup** (config). `CLAUDE.md` and `.claude/` are in the repo
   and move with the branch; update their workspace paths (`ros2_ws_2` to the new workspace), the
   remotes and `~/start_env.sh`.
   Done when: a new session started in the new repo folder loads `CLAUDE.md` and the

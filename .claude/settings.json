@@ -15,9 +15,9 @@
   },
   "permissions": {
     "additionalDirectories": [
-      "/home/daniel/ros2_ws_2/build",
-      "/home/daniel/ros2_ws_2/install",
-      "/home/daniel/ros2_ws_2/log",
+      "/home/daniel/ros2_ws_3/build",
+      "/home/daniel/ros2_ws_3/install",
+      "/home/daniel/ros2_ws_3/log",
       "/home/daniel/ros2_ws/src/slicer_ros2_module",
       "/home/daniel/slicer/Slicer/Libs/MRML",
       "/home/daniel/slicer/Slicer/Base",
@@ -25,7 +25,9 @@
     ],
     "allow": [
       "Bash(source /opt/ros/humble/setup.bash)",
-      "Bash(source /home/daniel/ros2_ws_2/install/setup.bash)",
+      "Bash(source /home/daniel/ros2_ws_3/install/setup.bash)",
+      "Bash(source ~/start_env.sh)",
+      "Bash(source /home/daniel/start_env.sh)",
       "Bash(source /home/daniel/ros2_ws/install/setup.bash)",
       "Bash(colcon build:*)",
       "Bash(colcon test:*)",
@@ -50,10 +52,10 @@
       "Bash(git diff:*)",
       "Bash(git log:*)",
       "Bash(git show:*)",
-      "Bash(git -C /home/daniel/ros2_ws_2/src/multi_franka_arm_ros2 status:*)",
-      "Bash(git -C /home/daniel/ros2_ws_2/src/multi_franka_arm_ros2 diff:*)",
-      "Bash(git -C /home/daniel/ros2_ws_2/src/multi_franka_arm_ros2 log:*)",
-      "Bash(git -C /home/daniel/ros2_ws_2/src/multi_franka_arm_ros2 show:*)",
+      "Bash(git -C /home/daniel/ros2_ws_3/src/multi_franka_arm_ros2 status:*)",
+      "Bash(git -C /home/daniel/ros2_ws_3/src/multi_franka_arm_ros2 diff:*)",
+      "Bash(git -C /home/daniel/ros2_ws_3/src/multi_franka_arm_ros2 log:*)",
+      "Bash(git -C /home/daniel/ros2_ws_3/src/multi_franka_arm_ros2 show:*)",
       "Bash(git -C /home/daniel/ros2_ws/src/slicer_ros2_module status:*)",
       "Bash(git -C /home/daniel/ros2_ws/src/slicer_ros2_module diff:*)",
       "Bash(git -C /home/daniel/ros2_ws/src/slicer_ros2_module log:*)"
