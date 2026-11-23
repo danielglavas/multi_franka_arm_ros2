@@ -98,8 +98,16 @@ Check it with `colcon test-result --all --verbose` before and after.
 To check only the packages you changed:
 ```bash
 colcon test --packages-select <pkg>
-colcon test-result --verbose
+colcon test-result --verbose --test-result-base build/<pkg>
 ```
+Without `--test-result-base`, `colcon test-result` reads the whole `build/` tree and also reports the
+old `franka_*` failures.
+
+## Our packages (`ultrasound/`)
+
+Added in P0-T7 (2026-11-23). All pass with zero failures and zero skips (40 tests in total).
+`ultrasound_scan_execution` is the only package where cppcheck really runs: its `CMakeLists.txt`
+sets `AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS=1` for that one test. Everywhere else cppcheck stays skipped.
 
 ## When to record the baseline again
 

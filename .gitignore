@@ -2,6 +2,8 @@
 .vscode
 *.pyc
 COLCON_IGNORE
+# Keep this one: it stops colcon from treating the Slicer modules (not ROS packages) as packages.
+!ultrasound/slicer_modules/COLCON_IGNORE
 AMENT_IGNORE
 cmake-build-*/
 franka_multi_mode_controller/mm_demo_scripts/*

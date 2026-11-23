@@ -126,7 +126,7 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   fail, almost all on style linters. The one functional failure is `franka_description_urdf_tests`
   (6 of 6): it loads `robots/panda_arm.urdf.xacro`, which upstream moved to `robots/real/`. cppcheck
   is skipped everywhere (version 2.7 counts as too slow). Details and the pass rule in `TEST_BASELINE.md`.
-- [ ] **P0-T7 Create the package skeleton** (code). Folder `ultrasound/` in the repo with empty but
+- [x] **P0-T7 Create the package skeleton** (code). Folder `ultrasound/` in the repo with empty but
   building packages as listed in `ARCHITECTURE.md`, each with license, description, and a passing
   lint/test setup. For the C++ package `ultrasound_scan_execution`, turn cppcheck on. Humble's
   `ament_cppcheck` skips the installed cppcheck 2.7 unless `AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS` is
@@ -134,6 +134,11 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   the CTest `ENVIRONMENT` property **(verify)**, not globally, so the `franka_*` baseline is unchanged.
   Done when: `colcon build` and `colcon test` succeed for the new packages, and the `cppcheck`
   result of `ultrasound_scan_execution` shows the test ran, not "skipped".
+  Done 2026-11-23: four packages under `ultrasound/` (`ultrasound_scan_interfaces` left out until a
+  custom type is needed). Build and tests pass: 40 tests, 0 failures, 0 skipped. cppcheck runs in
+  `ultrasound_scan_execution` (the CTest `ENVIRONMENT` property works) and fails on a planted bug;
+  `franka_semantic_components` still skips it. D4 and D8 decided. Brief and result in
+  `docs/project/briefs/P0-T7.md`.
 - [ ] **P0-T8 Explain the 2026-11-13 tf failure** (config). The Slicer log showed "panda_link0 does
   not exist" for all tf lookups. Reproduce or rule out: check `ros2 run tf2_ros tf2_echo
   panda_link0 panda_link8`, `use_sim_time`, start order, tf prefix.
@@ -337,3 +342,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-21: Fixing `urdf_tests.py` added to P0-T4 (Daniel approved the `franka_*` change). cppcheck for our C++ package added to P0-T7.
 - 2026-11-21: P0-T4 done; Slicer mirrors the MuJoCo Panda from `~/ros2_ws_3`. D14 (SlicerROS2 upgrade) added as open.
 - 2026-11-21: P0-T3 done; MoveIt2 plans and executes on the MuJoCo Panda. Locale fix in `~/start_env.sh`.
+- 2026-11-23: P0-T7 done; package skeleton under `ultrasound/`. Daniel decided D4 and D8 as proposed.

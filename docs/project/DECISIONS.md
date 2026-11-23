@@ -11,11 +11,11 @@ Only Daniel moves a decision to "decided". Opus may add entries and recommendati
 | D1 | Base repository | decided 2026-11-19 | Phase 0 |
 | D2 | Workspace for the new base | decided 2026-11-19 | Phase 0 |
 | D3 | Simulation: MuJoCo or fake hardware with RViz | decided 2026-11-19 | Phase 0 |
-| D4 | Languages | proposed | Phase 1 |
+| D4 | Languages | decided 2026-11-23 | Phase 1 |
 | D5 | Where waypoints are clicked | proposed | Phase 3 |
 | D6 | How ultrasound images reach Slicer | open | Phase 7 |
 | D7 | Contact control strategy | proposed | Phase 8 |
-| D8 | Own code in separate packages | proposed | Phase 0 |
+| D8 | Own code in separate packages | decided 2026-11-23 | Phase 0 |
 | D9 | Where synthetic images are generated | proposed | Phase 4 |
 | D10 | Camera model and driver | open | Phase 6 |
 | D11 | Continuous or stop-and-go acquisition | open | Phase 7 |
@@ -60,7 +60,10 @@ RViz only displays. The real choice is fake hardware (joints jump to commands, n
 MuJoCo. MuJoCo is needed because contact force is in scope, and it exposes the same controllers
 as the real robot. Fallback for planning-only work if MuJoCo tracking is troublesome: fake hardware.
 
-## D4 Languages (proposed: Python for planning nodes and Slicer; C++ for the MoveIt2 executor and controllers)
+## D4 Languages (decided 2026-11-23: Python for planning nodes and Slicer; C++ for the MoveIt2 executor and controllers)
+
+Daniel confirmed the proposal on 2026-11-23, while P0-T7 was being prepared. The language of
+`planning_scene_publisher` (P2-T3) is still left to its brief.
 
 - Python is quicker to learn and test, and the planning maths is not time-critical.
 - MoveIt2 on Humble has no official Python API (`moveit_py` came later), so the executor uses the
@@ -96,7 +99,9 @@ Whatever is chosen, image timestamps and pose timestamps must be comparable (see
 - Stretch (P8-T6): add a force term along the probe axis regulated on the estimated external force.
 - Open detail: which controller from the repo, and how the executor switches controllers. Decide in P8-T1 after reading the code.
 
-## D8 Own packages (proposed: all new code under `ultrasound/`)
+## D8 Own packages (decided 2026-11-23: all new code under `ultrasound/` in this repo)
+
+Daniel confirmed the proposal on 2026-11-23, while P0-T7 was being prepared.
 
 Alternative: a separate repository for our packages. Simpler history, but two repos to keep in
 step. One repo with a clear folder is enough unless the base is switched again.
