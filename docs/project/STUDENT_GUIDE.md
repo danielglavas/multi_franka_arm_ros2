@@ -367,9 +367,22 @@ project needs from it:
 
 Found during setup on 2026-11-15 to 17. Add to this list as you go.
 
-- **Slicer log of 2026-11-13:** all `panda_linkN` tf lookups failed with "frame does not exist".
-  Cause not established (task P0-T8). Suspects: simulation not running at that moment, simulated
-  time, or a frame prefix.
+- **Slicer: "could not find the transform … panda_link0 … does not exist" (explained in P0-T8,
+  2026-11-24).** Not a failure. Slicer already has the robot model but has not yet received a `/tf`
+  message for the moving joints (links 0 to 7 and the fingers; fixed joints come on the latched
+  `/tf_static` and are there at once). Slicer retries every 20 ms and prints the lines on every try.
+  - Robot added to a running sim: no lines, or a few rounds.
+  - Robot added before or while the sim starts: many rounds (half a second or more).
+  - Either way it stops by itself and the robot then follows. Launch file (sim only or MoveIt),
+    start order, sim time and the old base `~/ros2_ws_2` make no difference (five runs, see
+    `docs/project/briefs/P0-T8.md`).
+  - Tip: add the robot in Slicer after MuJoCo or RViz shows the arm.
+  - Only lines that **never stop** are a real problem: check that the sim runs and `ros2 topic hz /tf`.
+  - Also harmless on every robot load: "no visual vector available for link 8 / 12" (`panda_link8`
+    and `panda_hand_tcp` have no mesh), two "A FileName must be specified" from `vtkSTLReader`, and
+    "parent transform cannot be self" (the root link refused as its own parent).
+- **Slicer's log is in `/tmp/Slicer-daniel/`** and is deleted on reboot. Copy it out when a run
+  matters; `~/.ros/log/SlicerApp-real_*.log` stays empty.
 - **Decimal comma breaks ROS parameters in Qt programs.** The desktop's number format is `hr_HR`.
   RViz (and Slicer) apply it, and ROS 2 then reads YAML numbers like `0.05` as text; MoveIt's RViz
   display failed to load the robot. `~/start_env.sh` now sets `LC_NUMERIC=en_US.UTF-8` (P0-T3).

@@ -139,10 +139,18 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   `ultrasound_scan_execution` (the CTest `ENVIRONMENT` property works) and fails on a planted bug;
   `franka_semantic_components` still skips it. D4 and D8 decided. Brief and result in
   `docs/project/briefs/P0-T7.md`.
-- [ ] **P0-T8 Explain the 2026-11-13 tf failure** (config). The Slicer log showed "panda_link0 does
+- [x] **P0-T8 Explain the 2026-11-13 tf failure** (config). The Slicer log showed "panda_link0 does
   not exist" for all tf lookups. Reproduce or rule out: check `ros2 run tf2_ros tf2_echo
   panda_link0 panda_link8`, `use_sim_time`, start order, tf prefix.
   Done when: the cause is written in `STUDENT_GUIDE.md` under "Known problems", or it is shown not to recur.
+  2026-11-24: started; brief in `docs/project/briefs/P0-T8.md`. The original Slicer log is lost
+  (it was in `/tmp`). The 2026-11-13 run used the old workspace's sim launch; with today's
+  `sim_moveit.launch.py` the error did not appear.
+  Done 2026-11-24: not a failure. The lines mean Slicer has the robot model but no `/tf` for the
+  moving joints yet; they stop by themselves and the robot then follows. Few or none when the robot
+  is added to a running sim, half a second or more when it is added before the sim. Five runs (sim
+  only, MoveIt, both start orders, old workspace) in `docs/project/briefs/P0-T8.md`; explanation in
+  `STUDENT_GUIDE.md` section 14.
 - [ ] **P0-T9 Load SlicerIGSIO and SlicerIGT into Slicer** (config, Daniel). They are built in
   `~/slicer/modules` but not on Slicer's module path **(verify they were built against this Slicer 5.6.2)**.
   Done when: the "Volume Reconstruction" and "Sequences" modules are available in Slicer.
@@ -343,3 +351,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-21: P0-T4 done; Slicer mirrors the MuJoCo Panda from `~/ros2_ws_3`. D14 (SlicerROS2 upgrade) added as open.
 - 2026-11-21: P0-T3 done; MoveIt2 plans and executes on the MuJoCo Panda. Locale fix in `~/start_env.sh`.
 - 2026-11-23: P0-T7 done; package skeleton under `ultrasound/`. Daniel decided D4 and D8 as proposed.
+- 2026-11-24: P0-T8 done; the 2026-11-13 tf "failure" is a startup delay in Slicer, not a fault.
