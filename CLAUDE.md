@@ -72,6 +72,10 @@ The end effector will be an ultrasound probe (not modelled yet; `hand.xacro` gri
   passwords, tokens, API keys, the robot's Desk login, lab network details, ultrasound images,
   recordings, rosbags, or anything showing a person. If any is found, stop, tell Daniel what and
   where, and do not commit until he decides. Such data belongs in `.gitignore`d folders, never in git.
+- Private lab notes (robot IP, network setup, Desk login, photos not yet checked for people or
+  image screens) live outside the repo in `~/ros2_ws_3/src/lab_private/` (it has a `COLCON_IGNORE`).
+  Never copy them into repo files, briefs or commit messages; in `LAB_CHECKLIST.md` write
+  "see private notes". When a task needs such a value, ask Daniel.
 
 ## Workflow
 - Plans live in `docs/PLAN.md`. It is the only place where status is tracked.

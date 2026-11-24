@@ -3,6 +3,10 @@
 Fill this in at the lab. Each answer unlocks a decision or a phase (named in brackets). Write the
 answer under the question; add photos to `docs/project/lab_photos/` if useful.
 
+**This file is public (GitHub fork).** Never write IP addresses, network setup, logins (Desk),
+anything showing a person, or ultrasound images here. Keep those in private notes outside the repo
+and write "see private notes". Photos go into `lab_photos/` only after checking for people and image screens.
+
 ## A. Robot (unlocks Phase 0 decision D1, Phase 2 R0, Phase 5)
 
 - [ ] Panda system version shown in Desk (needed: compatible with libfranka 0.9.2, i.e. 4.2.x):

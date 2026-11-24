@@ -160,7 +160,7 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   Done 2026-11-24: Slicer started with `~/slicer/modules/SlicerIGT-build/SlicerWithSlicerIGT` loads
   Volume Reconstruction, SequenceIO, Sequences and SlicerROS2; both panels open. No settings changed,
   nothing built. Start command in `STUDENT_GUIDE.md` section 8.
-- [ ] **P0-T10 Collect lab information** (lab, Daniel). Work through `LAB_CHECKLIST.md`.
+- [~] **P0-T10 Collect lab information** (lab, Daniel). Work through `LAB_CHECKLIST.md`.
   Done when: sections A to D of the checklist are filled in.
 
 ## Phase 1: Probe model and first ROS 2 nodes (Nov 30 to Dec 13)
