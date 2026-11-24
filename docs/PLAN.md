@@ -151,9 +151,15 @@ Goal: a known-good, maintained base that builds, runs sim to Slicer, and has a r
   is added to a running sim, half a second or more when it is added before the sim. Five runs (sim
   only, MoveIt, both start orders, old workspace) in `docs/project/briefs/P0-T8.md`; explanation in
   `STUDENT_GUIDE.md` section 14.
-- [ ] **P0-T9 Load SlicerIGSIO and SlicerIGT into Slicer** (config, Daniel). They are built in
+- [x] **P0-T9 Load SlicerIGSIO and SlicerIGT into Slicer** (config, Daniel). They are built in
   `~/slicer/modules` but not on Slicer's module path **(verify they were built against this Slicer 5.6.2)**.
   Done when: the "Volume Reconstruction" and "Sequences" modules are available in Slicer.
+  2026-11-24: started; brief in `docs/project/briefs/P0-T9.md`. Both extensions were built against
+  this Slicer build tree (Release). Sequences is part of Slicer 5.6 itself; Volume Reconstruction
+  comes from SlicerIGT.
+  Done 2026-11-24: Slicer started with `~/slicer/modules/SlicerIGT-build/SlicerWithSlicerIGT` loads
+  Volume Reconstruction, SequenceIO, Sequences and SlicerROS2; both panels open. No settings changed,
+  nothing built. Start command in `STUDENT_GUIDE.md` section 8.
 - [ ] **P0-T10 Collect lab information** (lab, Daniel). Work through `LAB_CHECKLIST.md`.
   Done when: sections A to D of the checklist are filled in.
 
@@ -353,3 +359,4 @@ Never cut: R0, M-B, the safety layer P8-T4, the evaluation P9-T3.
 - 2026-11-21: P0-T3 done; MoveIt2 plans and executes on the MuJoCo Panda. Locale fix in `~/start_env.sh`.
 - 2026-11-23: P0-T7 done; package skeleton under `ultrasound/`. Daniel decided D4 and D8 as proposed.
 - 2026-11-24: P0-T8 done; the 2026-11-13 tf "failure" is a startup delay in Slicer, not a fault.
+- 2026-11-24: P0-T9 done; Slicer with SlicerIGT/SlicerIGSIO starts through the `SlicerWithSlicerIGT` launcher.

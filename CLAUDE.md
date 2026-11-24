@@ -35,10 +35,13 @@ The end effector will be an ultrasound probe (not modelled yet; `hand.xacro` gri
 ## Sourcing and running
 - Claude's shell has no ROS environment and does not read `~/.bashrc` (so no MuJoCo 3.2.0 or
   Eigen 3.3.9 paths). Prefix every `ros2`/`colcon` command with `source ~/start_env.sh &&`.
-  That file sets the library paths, sources ROS and the workspace, and defines `start_panda_sim` and `start_slicer`.
-- Terminal 1: `source ~/start_env.sh`, then `start_panda_sim` (= `ros2 launch franka_bringup franka_sim.launch.py`).
-- Terminal 2 (after the sim is up): source as above, `cd ~/slicer/Slicer-SuperBuild-Release/Slicer-build && ./Slicer`,
-  then add the robot in the ROS2 module.
+  That file sets the library paths, sources ROS and the workspace, and defines `start_panda_sim`,
+  `start_moveit_sim` and `start_slicer`.
+- Terminal 1: `source ~/start_env.sh`, then `start_panda_sim` (= `ros2 launch franka_bringup franka_sim.launch.py`),
+  or `start_moveit_sim` (= `ros2 launch franka_moveit_config sim_moveit.launch.py`, with MoveIt2 and RViz;
+  MuJoCo starts paused, press Space).
+- Terminal 2 (after the sim is up): source as above, then `start_slicer` (Slicer with SlicerIGT/SlicerIGSIO
+  through `~/slicer/modules/SlicerIGT-build/SlicerWithSlicerIGT`), then add the robot in the ROS2 module.
 - `~/ros2_ws/install/setup.bash` is only needed to build or test the Slicer module, not to run Slicer with the Panda.
 
 ## Build and test

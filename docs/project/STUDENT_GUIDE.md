@@ -223,6 +223,11 @@ Most lost hours are in the first two.
   test classes) is standard. Put all real work in the logic class so it can be tested without the GUI.
 - **Adding module paths.** Application settings, Modules, "Additional module paths". This is how
   your module and the SlicerIGSIO/SlicerIGT builds get loaded.
+- **Slicer with SlicerIGT and SlicerIGSIO (Volume Reconstruction, SequenceIO).** `start_slicer`
+  (from `~/start_env.sh`) does this since 2026-11-24: it starts the launcher the extension build made,
+  `~/slicer/modules/SlicerIGT-build/SlicerWithSlicerIGT`. That runs the normal Slicer (SlicerROS2
+  included) and adds the module and library paths of both extensions; no settings are changed.
+  Started as plain `./Slicer`, those modules are missing. Sequences is part of Slicer itself (P0-T9).
 - **Save scenes as `.mrb`** for each experiment; one file holds everything.
 - **Slicer and ROS in one process.** Slicer was started from a terminal with ROS sourced, and
   SlicerROS2 spins the ROS node on a timer. If Slicer is busy (long reconstruction), ROS data is
@@ -376,7 +381,8 @@ Found during setup on 2026-11-15 to 17. Add to this list as you go.
   message for the moving joints (links 0 to 7 and the fingers; fixed joints come on the latched
   `/tf_static` and are there at once). Slicer retries every 20 ms and prints the lines on every try.
   - Robot added to a running sim: no lines, or a few rounds.
-  - Robot added before or while the sim starts: many rounds (half a second or more).
+  - Robot added before or while the sim starts: anywhere from none to many rounds (half a second
+    or more), depending on how far the sim has come when Slicer reads the URDF.
   - Either way it stops by itself and the robot then follows. Launch file (sim only or MoveIt),
     start order, sim time and the old base `~/ros2_ws_2` make no difference (five runs, see
     `docs/project/briefs/P0-T8.md`).
