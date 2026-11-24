@@ -94,8 +94,12 @@ Conventions:
 - ROS: metres, radians, right-handed frames (REP 103). Quaternions in messages are x, y, z, w.
 - Slicer: millimetres, RAS coordinates. SlicerROS2 converts for tf lookups **(verify, and record
   the exact behaviour here after task P1-T6)**.
-- STL files carry no unit. Export in metres, or state `scale` in the xacro. Check that Slicer
-  shows the part at the right size.
+- STL files carry no unit. Export them in metres and leave out the `scale` attribute in the xacro.
+  The installed SlicerROS2 (`e7bf7fe`) keeps one scale for the whole robot: each mesh's `scale`
+  overwrites it (`MRML/vtkMRMLROS2RobotNode.cxx` line 213) and it is applied to all links (line 311),
+  so a single mesh with `scale="0.001 0.001 0.001"` shrinks the whole robot in Slicer while RViz looks
+  right. Whether newer SlicerROS2 versions (D14) fix this is not checked. Check that Slicer shows
+  each new part at the right size.
 
 ## 7. Slicer side
 

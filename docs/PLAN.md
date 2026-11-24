@@ -167,7 +167,8 @@ and understood a first node.
 - [ ] **P1-T2 Placeholder probe description** (code). Package `ultrasound_probe_description`:
   xacro for mount, probe and camera as simple shapes, with all dimensions as named xacro
   properties in one file so real values drop in later. Frames `probe_mount`, `probe_tip`,
-  `camera_link` as defined in `ARCHITECTURE.md`. Visual meshes as STL in metres.
+  `camera_link` as defined in `ARCHITECTURE.md`. Visual meshes as STL in metres, with no `scale`
+  attribute: SlicerROS2 applies one scale to all links of the robot (`ARCHITECTURE.md` section 6).
   Done when: pytest confirms the xacro parses with and without probe, the three frames exist, and
   `probe_tip` is at the configured offset from `panda_link8`.
 - [ ] **P1-T3 Probe in the MuJoCo model** (code). MuJoCo uses its own model file (MJCF), separate

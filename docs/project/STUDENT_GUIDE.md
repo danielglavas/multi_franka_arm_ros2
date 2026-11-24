@@ -205,6 +205,10 @@ Most lost hours are in the first two.
 - **Coordinates.** Slicer works in millimetres, in the RAS patient coordinate system. ROS works in
   metres. Find out exactly what SlicerROS2 converts (task P1-T6) and write it in
   `ARCHITECTURE.md`. A reconstruction that is 1000 times too small or mirrored is this.
+- **One scale for the whole robot.** Symptom: the robot is tiny (or huge) in Slicer but fine in
+  RViz. Cause: SlicerROS2 (`e7bf7fe`) takes the `scale` of the meshes, keeps only the last one, and
+  applies it to every link. So all robot meshes, including our probe, mount and camera STLs, must be
+  in metres with no `scale` attribute. Details in `ARCHITECTURE.md` section 6.
 - **Array index order.** `slicer.util.arrayFromVolume` returns arrays indexed (k, j, i), that is
   slice, row, column. The reverse of what you expect.
 - **A volume's geometry is its own matrix.** Each volume has an IJK-to-RAS matrix (spacing,
